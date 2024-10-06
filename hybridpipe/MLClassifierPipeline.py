@@ -70,12 +70,12 @@ class MLClassifierPipeline:
             features_to_drop = missing_percentage[missing_percentage >= drop_threshold].index
             self.df.drop(columns=features_to_drop, inplace=True)
             print(f"Dropped features with >=25% missing values: {features_to_drop.tolist()}")
-            if (len(features_to_drop.tolist())/len(df.columns)) > 0.5:
+            if (len(features_to_drop.tolist())/len(self.df.columns)) > 0.5:
                 print(f"WARNING: More than 50% of the columns have been dropped per your threshold ({drop_threshold}).")
         
         # Drop rows with null values
         self.df.dropna(inplace=True)
-        print(f"{len(df)} number of instances remaining.")
+        print(f"{len(self.df)} number of instances remaining.")
 
         # Separate features and target
         X = self.df.drop(self.target_column, axis=1)
