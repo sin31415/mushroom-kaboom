@@ -108,62 +108,6 @@ class MLClassifierPipeline:
         self.y_train = y_train
         self.y_test = y_test
 
-
-    # def train_models(self):
-    #     """Trains all models, evaluates them, and displays analytics in subplots."""
-        
-    #     # Create subplots (4 rows, 2 columns) for confusion matrices
-    #     fig, axes = plt.subplots(4, 2, figsize=(8, 10))  # Adjust figsize as needed
-    #     axes = axes.flatten()  # Flatten the grid of axes into a 1D array to iterate over
-        
-    #     for idx, (name, model) in enumerate(self.models.items()):
-    #         print(f"Training {name}...")
-    #         clf = Pipeline(steps=[('model', model)])
-    #         clf.fit(self.X_train, self.y_train)
-    #         y_pred_train = clf.predict(self.X_train)
-    #         y_pred_test = clf.predict(self.X_test)
-    
-    #         train_accuracy = accuracy_score(self.y_train, y_pred_train)
-    #         test_accuracy = accuracy_score(self.y_test, y_pred_test)
-    
-    #         self.model_results[name] = {
-    #             'model': clf,
-    #             'train_accuracy': train_accuracy,
-    #             'test_accuracy': test_accuracy,
-    #             'y_pred_test': y_pred_test,
-    #         }
-    
-    #         if self.display_analytics:
-    #             print(f"\n{name} Results:")
-    #             print(f"Training Accuracy: {train_accuracy:.4f}")
-    #             print(f"Test Accuracy: {test_accuracy:.4f}")
-    #             print("\nClassification Report:")
-    #             print(classification_report(self.y_test, y_pred_test))
-    
-    #             # Confusion matrix
-    #             cm = confusion_matrix(self.y_test, y_pred_test)
-    #             print("Confusion Matrix:")
-    #             print(cm)
-                
-    #             # Plotting confusion matrix in a subplot
-    #             sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', annot_kws={"size": 16}, 
-    #                         cbar_kws={'label': 'Scale'}, vmin=0, vmax=705, ax=axes[idx])
-    #             axes[idx].set_title(f'{name} Confusion Matrix')
-    #             axes[idx].set_ylabel('Actual')
-    #             axes[idx].set_xlabel('Predicted')
-    
-    #         # Store trained model
-    #         self.trained_models[name] = clf
-        
-    #     # Remove unused subplots (if there are fewer than 8 models)
-    #     if len(self.models) < len(axes):
-    #         for i in range(len(self.models), len(axes)):
-    #             fig.delaxes(axes[i])
-        
-    #     # Adjust layout to prevent overlap
-    #     plt.tight_layout()
-    #     plt.show()
-
     def train_models(self):
         """Trains all models, evaluates them, and displays analytics in subplots with two matrices per row."""
     
