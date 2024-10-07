@@ -145,8 +145,13 @@ class MLClassifierPipeline:
     
             # Plot confusion matrix
             cm = confusion_matrix(self.y_test, y_pred_test)
-            sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', annot_kws={"size": 16}, 
-                        cbar_kws={'label': 'Scale'}, vmin=0, vmax=705, ax=ax_cm)
+            # sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', annot_kws={"size": 16}, 
+            #             cbar_kws={'label': 'Scale'}, vmin=0, vmax=705, ax=ax_cm)
+
+            x_axis_labels = sorted(self.df[self.target_column].value_counts().index)#["Edible", "Poisonous"]
+            y_axis_labels = sorted(self.df[self.target_column].value_counts().index)#["Edible", "Poisonous"]
+            sns.heatmap(cm, annot = True, linewidths=0.2, linecolor="black", fmt = ".0f", ax=ax_cm, cmap="Purples", xticklabels=x_axis_labels, yticklabels=y_axis_labels)
+            
             ax_cm.set_title(f'{name} Confusion Matrix')
             ax_cm.set_ylabel('Actual')
             ax_cm.set_xlabel('Predicted')
@@ -197,8 +202,14 @@ class MLClassifierPipeline:
 
             plt.figure(figsize=(40, 20))
             plot_tree(model, feature_names=feature_names, filled=True, rounded=True, class_names=class_names)
+
+            if input('Press 1 to save fig') == '1':
+                 plt.savefig(f'decision_tree.png', dpi=400, bbox_inches='tight')
+                
             plt.title('Decision Tree Visualization')
             plt.show()
+
+            
         else:
             print("Decision Tree model is not trained yet.")
 
@@ -220,9 +231,23 @@ class MLClassifierPipeline:
             feature_importances = pd.Series(importances, index=feature_names)
             feature_importances.sort_values(ascending=False, inplace=True)
             plt.figure(figsize=(10, 6))
-            feature_importances.head(20).plot(kind='bar')
+
+            # Get a colormap and normalize
+            cmap = plt.get_cmap('Purples').reversed()
+            norm = plt.Normalize(vmin=0, vmax=len(feature_importances.head(20)))
+            
+            # Generate color for each bar
+            colors = cmap(norm(np.arange(len(feature_importances.head(20)))))
+
+            feature_importances.head(20).plot(kind='bar', color=colors)
+
+            if input('Press 1 to save fig') == '1':
+                plt.savefig(f'feature_importance.png', dpi=400, bbox_inches='tight')
+            
             plt.title('Feature Importances')
             plt.show()
+
+            
         else:
             print(f"The model {model} does not support feature importance.")
             
