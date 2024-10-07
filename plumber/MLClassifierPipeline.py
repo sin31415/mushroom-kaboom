@@ -136,44 +136,50 @@ class MLClassifierPipeline:
                 'y_pred_test': y_pred_test,
             }
     
-            # Calculate the position in GridSpec
-            row_idx = (idx // 2) * 2  # Two rows for each set of matrices (matrix + text)
-            col_idx = idx % 2  # Switch between 0 (left column) and 1 (right column)
+            if self.display_analytics:
+                
+                # Calculate the position in GridSpec
+                row_idx = (idx // 2) * 2  # Two rows for each set of matrices (matrix + text)
+                col_idx = idx % 2  # Switch between 0 (left column) and 1 (right column)
+        
+                # GridSpec setup: Confusion matrix in the top half
+                ax_cm = fig.add_subplot(gs[row_idx, col_idx]);  # Top row of each pair for confusion matrix
+        
+                # Plot confusion matrix
+                cm = confusion_matrix(self.y_test, y_pred_test)
+                # sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', annot_kws={"size": 16}, 
+                #             cbar_kws={'label': 'Scale'}, vmin=0, vmax=705, ax=ax_cm)
     
-            # GridSpec setup: Confusion matrix in the top half
-            ax_cm = fig.add_subplot(gs[row_idx, col_idx]);  # Top row of each pair for confusion matrix
-    
-            # Plot confusion matrix
-            cm = confusion_matrix(self.y_test, y_pred_test)
-            # sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', annot_kws={"size": 16}, 
-            #             cbar_kws={'label': 'Scale'}, vmin=0, vmax=705, ax=ax_cm)
-
-            x_axis_labels = sorted(self.df[self.target_column].value_counts().index)#["Edible", "Poisonous"]
-            y_axis_labels = sorted(self.df[self.target_column].value_counts().index)#["Edible", "Poisonous"]
-            sns.heatmap(cm, annot = True, linewidths=0.2, linecolor="black", fmt = ".0f", ax=ax_cm, cmap="Purples", xticklabels=x_axis_labels, yticklabels=y_axis_labels)
-            
-            ax_cm.set_title(f'{name} Confusion Matrix')
-            ax_cm.set_ylabel('Actual')
-            ax_cm.set_xlabel('Predicted')
-    
-            # Text section in the bottom half
-            ax_text = fig.add_subplot(gs[row_idx + 1, col_idx])  # Bottom row of each pair for text
-    
-            # Add training accuracy, test accuracy, and a brief classification report in compact format
-            text_info = (f"Train Acc: {train_accuracy:.4f} | Test Acc: {test_accuracy:.4f}\n"
-                         f"Precision: {clf_report['weighted avg']['precision']:.4f} | "
-                         f"Recall: {clf_report['weighted avg']['recall']:.4f} | "
-                         f"F1-Score: {clf_report['weighted avg']['f1-score']:.4f}")
-    
-            ax_text.text(0.5, 0.5, text_info, ha='center', va='center', fontsize=12)
-            ax_text.axis('off')  # Hide the axes for the text subplot
+                x_axis_labels = sorted(self.df[self.target_column].value_counts().index)#["Edible", "Poisonous"]
+                y_axis_labels = sorted(self.df[self.target_column].value_counts().index)#["Edible", "Poisonous"]
+                sns.heatmap(cm, annot = True, linewidths=0.2, linecolor="black", fmt = ".0f", ax=ax_cm, cmap="Purples", xticklabels=x_axis_labels, yticklabels=y_axis_labels);
+                
+                ax_cm.set_title(f'{name} Confusion Matrix')
+                ax_cm.set_ylabel('Actual')
+                ax_cm.set_xlabel('Predicted')
+        
+                # Text section in the bottom half
+                ax_text = fig.add_subplot(gs[row_idx + 1, col_idx])  # Bottom row of each pair for text
+        
+                # Add training accuracy, test accuracy, and a brief classification report in compact format
+                text_info = (f"Train Acc: {train_accuracy:.4f} | Test Acc: {test_accuracy:.4f}\n"
+                             f"Precision: {clf_report['weighted avg']['precision']:.4f} | "
+                             f"Recall: {clf_report['weighted avg']['recall']:.4f} | "
+                             f"F1-Score: {clf_report['weighted avg']['f1-score']:.4f}")
+        
+                ax_text.text(0.5, 0.5, text_info, ha='center', va='center', fontsize=12)
+                ax_text.axis('off')  # Hide the axes for the text subplot
     
             # Store trained model
             self.trained_models[name] = clf
     
         # Adjust layout to prevent overlap
-        plt.tight_layout()
-        plt.show()
+        if self.display_analytics:
+            plt.tight_layout()
+            plt.show()
+
+        results_df = pd.DataFrame(self.model_results)
+        display(results_df.transpose()[['train_accuracy','test_accuracy']])
 
     def select_best_model(self):
         """Selects the best model based on test accuracy."""
