@@ -142,7 +142,11 @@ To run this project locally:
    import seaborn as sns
    ```
 ## Machine Learning Pipeline
-The project utilizes the **plumber** library to create a machine learning pipeline for training models on the dataset. Below is the code used for the pipeline:
+The project utilizes the **plumber** library to create a machine learning pipeline for training models on the dataset. 
+
+https://github.com/sin31415/plumber-cmc.git
+
+Below is the code used for the pipeline:
 
 ```python
 from plumber import mlpipe, mlht
@@ -169,3 +173,5 @@ my_model = pipe.user_model_return()
 pipe.get_feature_importance()
 pipe.visualize_decision_tree()
 ```
+## Presentation Slides
+https://docs.google.com/presentation/d/1L9Zk3qLu5KDaWTv2NC0fO30kugfEwkFz_6l6VEvWUVk/edit?usp=sharing
