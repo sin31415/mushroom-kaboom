@@ -56,16 +56,20 @@ To load the dataset, use the following code:
    ``` 
 
    # Fetch dataset 
+   ```
    mushroom = fetch_ucirepo(id=73) 
 
-   # Data (as pandas DataFrames) 
+   ```
+   # Data (as pandas DataFrames)
+   ```
    X = mushroom.data.features 
    y = mushroom.data.targets 
    df = mushroom.data.original
-
+   ```
    # Combine features and target into a single DataFrame
+   ```
    df = pd.concat([X, y], axis=1)
-
+   ```
 ## Analysis
 ### Predictive Features
 1. **Odor**: A strong predictive feature, providing clear signals about edibility. Strong odors are often associated with poisonous mushrooms, making simpler models like Logistic Regression highly effective in this context.
@@ -107,12 +111,15 @@ To run this project locally:
    ```bash
    git clone https://github.com/sin31415/mushroom-kaboom.git
    cd mushroom-kaboom
+   ```
    
 2. `Run in Jupyter Notebook:`
-
+    ```
    jupyter notebook mushroom.ipynb
+    ```
    
 4. `Necessary Installs`
+   
     ```python
    import pandas as pd
    import numpy as np
@@ -133,7 +140,7 @@ To run this project locally:
    )
    import matplotlib.pyplot as plt
    import seaborn as sns
-   
+   ```
 ## Machine Learning Pipeline
 The project utilizes the **plumber** library to create a machine learning pipeline for training models on the dataset. Below is the code used for the pipeline:
 
@@ -161,3 +168,4 @@ pipe.get_feature_importance()
 my_model = pipe.user_model_return()
 pipe.get_feature_importance()
 pipe.visualize_decision_tree()
+```
