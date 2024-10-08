@@ -52,7 +52,8 @@ The dataset used in this project contains the following columns:
 To load the dataset, use the following code:
 
    ```python
-   from ucimlrepo import fetch_ucirepo 
+   from ucimlrepo import fetch_ucirepo
+   ``` 
 
    # Fetch dataset 
    mushroom = fetch_ucirepo(id=73) 
