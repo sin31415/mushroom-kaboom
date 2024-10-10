@@ -142,6 +142,7 @@ To run this project locally:
    import seaborn as sns
    ```
 ## Machine Learning Pipeline
+Competitive Model Comparison<br>
 The project utilizes the **plumber** library to create a machine learning pipeline for training models on the dataset. 
 
 https://github.com/sin31415/plumber-cmc.git
